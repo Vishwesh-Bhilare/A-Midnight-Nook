@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { BookOpen, CalendarDays, Check, ChevronLeft, Download, Flame, Headphones, Heart, LockKeyhole, Music2, NotebookPen, Sparkles, Volume2, VolumeX, X } from 'lucide-react'
+import { BookOpen, CalendarDays, Check, Download, Flame, Headphones, Heart, LockKeyhole, Music2, NotebookPen, Sparkles, Volume2, VolumeX, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import type { CSSProperties } from 'react'
 import booksData from './data/books.json'
@@ -8,6 +8,8 @@ type Book = typeof booksData[number]
 type View = 'room' | 'calendar' | 'journal'
 
 const storageKey = 'midnight-nook-progress'
+const totalDays = booksData.length
+const calendarStart = new Date('2026-12-01T00:00:00')
 
 function loadOpened(): number[] {
   try { return JSON.parse(localStorage.getItem(storageKey) || '[]') } catch { return [] }
@@ -24,11 +26,10 @@ function Rain() {
 }
 
 function availableDayFor(date = new Date()) {
-  const start = new Date('2026-12-01T00:00:00')
-  const end = new Date('2026-12-24T23:59:59')
-  if (date < start) return 1
-  if (date > end) return 24
-  return Math.min(date.getDate(), 24)
+  const end = new Date(`2026-12-${String(totalDays).padStart(2, '0')}T23:59:59`)
+  if (date < calendarStart) return 1
+  if (date > end) return totalDays
+  return Math.min(date.getDate(), totalDays)
 }
 
 function Room({ opened, onSelect, onFinal, stage }: { opened: number[]; onSelect: (book: Book) => void; onFinal: () => void; stage: number }) {
@@ -56,7 +57,7 @@ function Room({ opened, onSelect, onFinal, stage }: { opened: number[]; onSelect
       {[0,1,2].map(row=><div className="shelf-row memory-row" key={row}>{opened.slice(row*6,row*6+6).map(day=><i key={day} className="memory-book" style={{background:booksData[day-1].cover}} title={booksData[day-1].title}/>)}</div>)}
       <div className="cabinet"><i/><i/></div>
     </div>
-    <button className="fireplace" aria-label={opened.length === 24 ? "Open the final letter" : "Fireplace—the final secret is still sleeping"} onClick={()=>opened.length === 24 && onFinal()}><div className="mantle"><span className="candle"/><span className="mantle-clock">◷</span><span className="candle short"/></div><div className="firebox"><div className="logs"/><div className="fire"><i/><i/><i/></div></div></button>
+    <button className="fireplace" aria-label={opened.length === totalDays ? "Open the final letter" : "Fireplace—the final letter is still sleeping"} onClick={()=>opened.length === totalDays && onFinal()}><div className="mantle"><span className="candle"/><span className="mantle-clock">◷</span><span className="candle short"/></div><div className="firebox"><div className="logs"/><div className="fire"><i/><i/><i/></div></div></button>
     <div className="rug"><span/><span/><span/></div>
     <div className="armchair"><div className="chair-back"/><div className="chair-seat"/><div className="chair-arm left"/><div className="chair-arm right"/><div className="blanket"/></div>
     <div className="side-table"><div className="lamp"><span className="lamp-glow"/><span className="shade"/><span className="stem"/></div><div className="teacup"><i/><span className="steam s1"/><span className="steam s2"/></div></div>
@@ -85,9 +86,9 @@ function Reveal({ book, isOpened, onClose, onOpened }: { book: Book; isOpened: b
       </div> : <motion.div className="book-reveal" initial={{opacity:0}} animate={{opacity:1}}>
         <div className="reveal-left"><p className="eyebrow">Tonight’s story · Day {book.day}</p><BookCover book={book}/><p className="hand-note">“{book.note}”</p></div>
         <div className="reveal-info"><span className="little-star">✦</span><h2>{book.title}</h2><p className="author">by {book.author}</p><div className="rule"/><dl><div><dt>Genre</dt><dd>{book.genre}</dd></div><div><dt>Reading time</dt><dd>{book.length}</dd></div></dl><div className="tags">{book.mood.map(tag=><span key={tag}>{tag}</span>)}</div>
-          <div className="actions"><button className="primary-action"><BookOpen size={17}/> Read online</button><button className="secondary-action"><Download size={16}/> PDF</button></div>
+          <div className="actions"><a className="primary-action" href={book.file} target="_blank" rel="noreferrer"><BookOpen size={17}/> Read online</a><a className="secondary-action" href={book.file} download><Download size={16}/> {book.format}</a></div>
           <button className={`mark-button ${isOpened?'done':''}`} onClick={onOpened}>{isOpened?<><Check size={16}/> Resting on your memory shelf</>:<>Mark as opened <span>→</span></>}</button>
-          <p className="content-note">Add your licensed reading links and files in the book data when you’re ready.</p>
+          <p className="content-note">Tip: open the book in a new tab or download a copy for offline reading.</p>
         </div>
       </motion.div>}
     </motion.section>
@@ -96,11 +97,11 @@ function Reveal({ book, isOpened, onClose, onOpened }: { book: Book; isOpened: b
 
 function CalendarView({ opened, onSelect }: { opened:number[]; onSelect:(b:Book)=>void }) {
   const availableDay = availableDayFor()
-  return <motion.main className="page-view" initial={{opacity:0,y:10}} animate={{opacity:1,y:0}}><div className="page-heading"><p className="eyebrow">Twenty-four evenings together</p><h1>Your December stories</h1><p>Every night, another spine finds its place in the nook.</p></div><div className="calendar-grid">{booksData.map(book=><button key={book.day} className={`calendar-book ${book.day<=availableDay?'available':'locked'} ${opened.includes(book.day)?'complete':''}`} onClick={()=>book.day<=availableDay&&onSelect(book)}><BookCover book={book} small/><span className="calendar-day">{String(book.day).padStart(2,'0')}</span>{book.day>availableDay&&<LockKeyhole size={13}/>} {opened.includes(book.day)&&<Check size={14}/>}</button>)}</div></motion.main>
+  return <motion.main className="page-view" initial={{opacity:0,y:10}} animate={{opacity:1,y:0}}><div className="page-heading"><p className="eyebrow">Thirteen evenings together</p><h1>Your 13-day book advent</h1><p>Every night, another spine finds its place in the nook.</p></div><div className="calendar-grid">{booksData.map(book=><button key={book.day} className={`calendar-book ${book.day<=availableDay?'available':'locked'} ${opened.includes(book.day)?'complete':''}`} onClick={()=>book.day<=availableDay&&onSelect(book)}><BookCover book={book} small/><span className="calendar-day">{String(book.day).padStart(2,'0')}</span>{book.day>availableDay&&<LockKeyhole size={13}/>} {opened.includes(book.day)&&<Check size={14}/>}</button>)}</div></motion.main>
 }
 
 function Journal({ opened }: { opened:number[] }) {
-  return <motion.main className="page-view journal-view" initial={{opacity:0}} animate={{opacity:1}}><div className="journal-book"><div className="journal-page left-page"><p className="script">The Reading Journal</p><h2>A little record of<br/>our winter evenings</h2><div className="journal-stats"><div><strong>{opened.length}</strong><span>stories opened</span></div><div><strong>{opened.length ? 1 : 0}</strong><span>evening streak</span></div><div><strong>{Math.round(opened.length/24*100)}%</strong><span>of the nook filled</span></div></div><blockquote>“A room without books is like a body without a soul.”</blockquote></div><div className="journal-page right-page"><p className="eyebrow">Notes from the nook</p>{opened.length ? opened.map(day=><div className="journal-entry" key={day}><span>{day}</span><div><strong>{booksData[day-1].title}</strong><p>{booksData[day-1].mood.join(' · ')}</p></div><Heart size={15}/></div>) : <div className="empty-journal"><NotebookPen size={30}/><p>Your pages are waiting.</p><span>Open tonight’s story to begin.</span></div>}</div></div></motion.main>
+  return <motion.main className="page-view journal-view" initial={{opacity:0}} animate={{opacity:1}}><div className="journal-book"><div className="journal-page left-page"><p className="script">The Reading Journal</p><h2>A little record of<br/>our winter evenings</h2><div className="journal-stats"><div><strong>{opened.length}</strong><span>stories opened</span></div><div><strong>{opened.length ? 1 : 0}</strong><span>evening streak</span></div><div><strong>{Math.round(opened.length/totalDays*100)}%</strong><span>of the nook filled</span></div></div><blockquote>“A room without books is like a body without a soul.”</blockquote></div><div className="journal-page right-page"><p className="eyebrow">Notes from the nook</p>{opened.length ? opened.map(day=><div className="journal-entry" key={day}><span>{day}</span><div><strong>{booksData[day-1].title}</strong><p>{booksData[day-1].mood.join(' · ')}</p></div><Heart size={15}/></div>) : <div className="empty-journal"><NotebookPen size={30}/><p>Your pages are waiting.</p><span>Open tonight’s story to begin.</span></div>}</div></div></motion.main>
 }
 
 function App() {
@@ -112,13 +113,13 @@ function App() {
   const [finalLetter,setFinalLetter]=useState(false)
   useEffect(()=>{const t=setTimeout(()=>setIntro(false),3600); return()=>clearTimeout(t)},[])
   useEffect(()=>localStorage.setItem(storageKey,JSON.stringify(opened)),[opened])
-  const stage=useMemo(()=>opened.length>=24?4:opened.length>=18?3:opened.length>=12?2:opened.length>=6?1:0,[opened])
+  const stage=useMemo(()=>opened.length>=totalDays?4:opened.length>=10?3:opened.length>=7?2:opened.length>=4?1:0,[opened])
   const markOpened=()=>{if(selected&&!opened.includes(selected.day))setOpened([...opened,selected.day].sort((a,b)=>a-b))}
   return <div className="app-shell">
     <AnimatePresence>{intro&&<motion.div className="intro" initial={{opacity:1}} exit={{opacity:0}} transition={{duration:1.1}}><div className="intro-moon">☾</div><p>Welcome back.</p><p className="type-line">Tonight’s story is waiting for you.</p><button onClick={()=>setIntro(false)}>Enter the nook <span>→</span></button></motion.div>}</AnimatePresence>
-    <header><button className="brand" onClick={()=>setView('room')}><span>☾</span><div><strong>The Midnight</strong><small>Reading Nook</small></div></button><nav><button className={view==='room'?'active':''} onClick={()=>setView('room')}><Flame/>The Nook</button><button className={view==='calendar'?'active':''} onClick={()=>setView('calendar')}><CalendarDays/>Calendar</button><button className={view==='journal'?'active':''} onClick={()=>setView('journal')}><NotebookPen/>Journal</button></nav><div className="header-tools"><span className="progress-pill">{opened.length} <i>/ 24 stories</i></span><button className="sound" onClick={()=>setSound(!sound)} aria-label="Toggle rain sounds">{sound?<Volume2/>:<VolumeX/>}</button></div></header>
-    <AnimatePresence mode="wait">{view==='room'?<motion.main key="room" className="room-wrap" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}><Room opened={opened} onSelect={setSelected} onFinal={()=>setFinalLetter(true)} stage={stage}/><div className="room-caption"><span className="caption-line"/><div><p>Tuesday, December 1</p><strong>It’s warm inside. Look around—something is waiting for you.</strong></div><span className="room-hint"><Sparkles/> Glowing numbers hide tonight’s stories</span></div></motion.main>:view==='calendar'?<CalendarView key="calendar" opened={opened} onSelect={setSelected}/>:<Journal key="journal" opened={opened}/>}</AnimatePresence>
-    <footer><span>Made for slow evenings &amp; good stories</span><i>✦</i><span>December 2026</span></footer>
+    <header><button className="brand" onClick={()=>setView('room')}><span>☾</span><div><strong>The Midnight</strong><small>Reading Nook</small></div></button><nav><button className={view==='room'?'active':''} onClick={()=>setView('room')}><Flame/>The Nook</button><button className={view==='calendar'?'active':''} onClick={()=>setView('calendar')}><CalendarDays/>Calendar</button><button className={view==='journal'?'active':''} onClick={()=>setView('journal')}><NotebookPen/>Journal</button></nav><div className="header-tools"><span className="progress-pill">{opened.length} <i>/ {totalDays} stories</i></span><button className="sound" onClick={()=>setSound(!sound)} aria-label="Toggle rain sounds">{sound?<Volume2/>:<VolumeX/>}</button></div></header>
+    <AnimatePresence mode="wait">{view==='room'?<motion.main key="room" className="room-wrap" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}><Room opened={opened} onSelect={setSelected} onFinal={()=>setFinalLetter(true)} stage={stage}/><div className="room-caption"><span className="caption-line"/><div><p>December 1–13, 2026</p><strong>It’s warm inside. Look around—something is waiting for you.</strong></div><span className="room-hint"><Sparkles/> Glowing numbers hide tonight’s stories</span></div></motion.main>:view==='calendar'?<CalendarView key="calendar" opened={opened} onSelect={setSelected}/>:<Journal key="journal" opened={opened}/>}</AnimatePresence>
+    <footer><span>Made for slow evenings &amp; good stories</span><i>✦</i><span>13 days · December 2026</span></footer>
     <AnimatePresence>{selected&&<Reveal book={selected} isOpened={opened.includes(selected.day)} onClose={()=>setSelected(null)} onOpened={markOpened}/>}</AnimatePresence>
     <AnimatePresence>{finalLetter&&<motion.div className="modal-backdrop" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}><motion.section className="final-letter" initial={{scale:.9,y:30}} animate={{scale:1,y:0}}><button className="close-button" onClick={()=>setFinalLetter(false)}><X size={18}/></button><span>☾</span><p className="script">One last letter</p><h2>Thank you for spending<br/>these evenings here.</h2><p>Every story added something to this room—and every evening made it feel a little more like home.</p><div>Here’s to the books still waiting for us.</div><small>Always, with love ✦</small></motion.section></motion.div>}</AnimatePresence>
     {sound&&<div className="sound-toast"><Headphones size={15}/> Rain ambience on <Music2 size={13}/></div>}
