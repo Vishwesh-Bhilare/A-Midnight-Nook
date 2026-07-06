@@ -1,26 +1,210 @@
 [
-  {"day":1,"title":"Before the Coffee Gets Cold","author":"Toshikazu Kawaguchi","genre":"Magical realism","mood":["tender","bittersweet"],"length":"4–5 quiet hours","note":"I thought this book felt like a rainy evening. Take your time with this one.","cover":"#8b3f32","accent":"#e8c585"},
-  {"day":2,"title":"Convenience Store Woman","author":"Sayaka Murata","genre":"Contemporary fiction","mood":["wry","unusual"],"length":"3 hours","note":"For the part of you that has never wanted to fit neatly into a box.","cover":"#2f6972","accent":"#f4d9b2"},
-  {"day":3,"title":"The Travelling Cat Chronicles","author":"Hiro Arikawa","genre":"Literary fiction","mood":["warm","tearful"],"length":"5 hours","note":"A journey, a friendship, and a cat who knows more than he lets on.","cover":"#b97940","accent":"#f5e5c2"},
-  {"day":4,"title":"Almond","author":"Sohn Won-pyung","genre":"Coming of age","mood":["hopeful","quiet"],"length":"4 hours","note":"A small story about learning the shape of another person's heart.","cover":"#6b4934","accent":"#f1c56b"},
-  {"day":5,"title":"Foster","author":"Claire Keegan","genre":"Literary fiction","mood":["gentle","luminous"],"length":"2 hours","note":"Short enough for one evening, beautiful enough to stay much longer.","cover":"#47644f","accent":"#e4d5a7"},
-  {"day":6,"title":"Kitchen","author":"Banana Yoshimoto","genre":"Contemporary fiction","mood":["dreamlike","healing"],"length":"3 hours","note":"For late-night kitchens, found families, and beginning again.","cover":"#815563","accent":"#f1d3b1"},
-  {"day":7,"title":"Kim Jiyoung, Born 1982","author":"Cho Nam-joo","genre":"Literary fiction","mood":["sharp","moving"],"length":"3–4 hours","note":"A clear-eyed story that asks to be read and remembered.","cover":"#315d67","accent":"#eee1c1"},
-  {"day":8,"title":"Our Wives Under the Sea","author":"Julia Armfield","genre":"Gothic fiction","mood":["haunting","oceanic"],"length":"5 hours","note":"A strange tide of a book for a dark winter night.","cover":"#1e4e57","accent":"#a9d1c8"},
-  {"day":9,"title":"A Psalm for the Wild-Built","author":"Becky Chambers","genre":"Cozy science fiction","mood":["hopeful","restful"],"length":"3 hours","note":"You do not need to earn your rest. This book agrees.","cover":"#4f6545","accent":"#e6c66e"},
-  {"day":10,"title":"The Ocean at the End of the Lane","author":"Neil Gaiman","genre":"Modern fantasy","mood":["mythic","nostalgic"],"length":"4 hours","note":"A doorway back into the wild, shadowy logic of childhood.","cover":"#253f57","accent":"#d9c58b"},
-  {"day":11,"title":"Days at the Morisaki Bookshop","author":"Satoshi Yagisawa","genre":"Cozy fiction","mood":["bookish","restorative"],"length":"3 hours","note":"A bookshop can be a shelter. I think this one might be yours.","cover":"#80603d","accent":"#efe0ae"},
-  {"day":12,"title":"Sweet Bean Paste","author":"Durian Sukegawa","genre":"Literary fiction","mood":["kind","melancholy"],"length":"4 hours","note":"A sweet little reminder to listen closely to the world.","cover":"#96595b","accent":"#f0d2ba"},
-  {"day":13,"title":"The Housekeeper and the Professor","author":"Yoko Ogawa","genre":"Literary fiction","mood":["tender","clever"],"length":"3 hours","note":"For the quiet beauty of numbers, memories, and care.","cover":"#415b6e","accent":"#e7d7a5"},
-  {"day":14,"title":"Lonely Castle in the Mirror","author":"Mizuki Tsujimura","genre":"Fantasy","mood":["magical","empathetic"],"length":"9 hours","note":"There are doors that only appear when we need them most.","cover":"#514768","accent":"#e1c87b"},
-  {"day":15,"title":"Earthlings","author":"Sayaka Murata","genre":"Speculative fiction","mood":["strange","dark"],"length":"4 hours","note":"Something startling for tonight. Keep the lamp on for this one.","cover":"#4f5941","accent":"#e8d78c"},
-  {"day":16,"title":"The Employees","author":"Olga Ravn","genre":"Science fiction","mood":["eerie","philosophical"],"length":"3 hours","note":"A small, strange object from somewhere beyond our orbit.","cover":"#453e52","accent":"#d5cfba"},
-  {"day":17,"title":"The Bell Jar","author":"Sylvia Plath","genre":"Classic fiction","mood":["intimate","incisive"],"length":"6 hours","note":"For meeting the darkness honestly—and finding language inside it.","cover":"#735249","accent":"#e6cf9e"},
-  {"day":18,"title":"Open Water","author":"Caleb Azumah Nelson","genre":"Literary romance","mood":["lyrical","vulnerable"],"length":"3 hours","note":"Read this slowly. It moves like music through a quiet room.","cover":"#315367","accent":"#e8b97d"},
-  {"day":19,"title":"A Gentleman in Moscow","author":"Amor Towles","genre":"Historical fiction","mood":["elegant","warm"],"length":"12 hours","note":"A whole world can exist inside a few beloved rooms.","cover":"#763c38","accent":"#e3bd70"},
-  {"day":20,"title":"I Who Have Never Known Men","author":"Jacqueline Harpman","genre":"Dystopian fiction","mood":["stark","mesmerizing"],"length":"5 hours","note":"For a night when you want a story that echoes after it ends.","cover":"#3c4847","accent":"#d7c99c"},
-  {"day":21,"title":"My Brilliant Friend","author":"Elena Ferrante","genre":"Literary fiction","mood":["vivid","absorbing"],"length":"10 hours","note":"A friendship rendered in all its bright and difficult colors.","cover":"#805b3f","accent":"#efcf91"},
-  {"day":22,"title":"The Remains of the Day","author":"Kazuo Ishiguro","genre":"Classic fiction","mood":["restrained","wistful"],"length":"6 hours","note":"For all the things we almost say, and the roads still ahead.","cover":"#485643","accent":"#e0cf9b"},
-  {"day":23,"title":"Never Let Me Go","author":"Kazuo Ishiguro","genre":"Dystopian fiction","mood":["aching","beautiful"],"length":"7 hours","note":"A book to hold close, even when it breaks your heart a little.","cover":"#535d65","accent":"#e8c29d"},
-  {"day":24,"title":"A Monster Calls","author":"Patrick Ness","genre":"Fantasy","mood":["brave","cathartic"],"length":"4 hours","note":"The final story. About truth, love, and the courage to let go.","cover":"#243d39","accent":"#dcc27d"}
+  {
+    "day": 1,
+    "title": "Before the Coffee Gets Cold",
+    "author": "Toshikazu Kawaguchi",
+    "genre": "Magical realism",
+    "mood": [
+      "tender",
+      "bittersweet"
+    ],
+    "length": "4–5 quiet hours",
+    "note": "I thought this book felt like a rainy evening. Take your time with this one.",
+    "cover": "#8b3f32",
+    "accent": "#e8c585",
+    "file": "/books/day01-Before the Coffee Gets Cold.pdf",
+    "format": "PDF"
+  },
+  {
+    "day": 2,
+    "title": "Convenience Store Woman",
+    "author": "Sayaka Murata",
+    "genre": "Contemporary fiction",
+    "mood": [
+      "wry",
+      "unusual"
+    ],
+    "length": "3 hours",
+    "note": "For the part of you that has never wanted to fit neatly into a box.",
+    "cover": "#2f6972",
+    "accent": "#f4d9b2",
+    "file": "/books/day02-Convenience Store Woman.pdf",
+    "format": "PDF"
+  },
+  {
+    "day": 3,
+    "title": "The Travelling Cat Chronicles",
+    "author": "Hiro Arikawa",
+    "genre": "Literary fiction",
+    "mood": [
+      "warm",
+      "tearful"
+    ],
+    "length": "5 hours",
+    "note": "A journey, a friendship, and a cat who knows more than he lets on.",
+    "cover": "#b97940",
+    "accent": "#f5e5c2",
+    "file": "/books/day03-The Travelling Cat Chronicles.pdf",
+    "format": "PDF"
+  },
+  {
+    "day": 4,
+    "title": "Almond",
+    "author": "Sohn Won-pyung",
+    "genre": "Coming of age",
+    "mood": [
+      "hopeful",
+      "quiet"
+    ],
+    "length": "4 hours",
+    "note": "A small story about learning the shape of another person's heart.",
+    "cover": "#6b4934",
+    "accent": "#f1c56b",
+    "file": "/books/day04-Almond.pdf",
+    "format": "PDF"
+  },
+  {
+    "day": 5,
+    "title": "Foster",
+    "author": "Claire Keegan",
+    "genre": "Literary fiction",
+    "mood": [
+      "gentle",
+      "luminous"
+    ],
+    "length": "2 hours",
+    "note": "Short enough for one evening, beautiful enough to stay much longer.",
+    "cover": "#47644f",
+    "accent": "#e4d5a7",
+    "file": "/books/day05-Foster.pdf",
+    "format": "PDF"
+  },
+  {
+    "day": 6,
+    "title": "Kitchen",
+    "author": "Banana Yoshimoto",
+    "genre": "Contemporary fiction",
+    "mood": [
+      "dreamlike",
+      "healing"
+    ],
+    "length": "3 hours",
+    "note": "For late-night kitchens, found families, and beginning again.",
+    "cover": "#815563",
+    "accent": "#f1d3b1",
+    "file": "/books/day06-Kitchen.pdf",
+    "format": "PDF"
+  },
+  {
+    "day": 7,
+    "title": "Kim Jiyoung, Born 1982",
+    "author": "Cho Nam-joo",
+    "genre": "Literary fiction",
+    "mood": [
+      "sharp",
+      "moving"
+    ],
+    "length": "3–4 hours",
+    "note": "A clear-eyed story that asks to be read and remembered.",
+    "cover": "#315d67",
+    "accent": "#eee1c1",
+    "file": "/books/day07-Kim Jiyoung, Born 1982.pdf",
+    "format": "PDF"
+  },
+  {
+    "day": 8,
+    "title": "Our Wives Under the Sea",
+    "author": "Julia Armfield",
+    "genre": "Gothic fiction",
+    "mood": [
+      "haunting",
+      "oceanic"
+    ],
+    "length": "5 hours",
+    "note": "A strange tide of a book for a dark winter night.",
+    "cover": "#1e4e57",
+    "accent": "#a9d1c8",
+    "file": "/books/day08-Our Wives Under The Sea.pdf",
+    "format": "PDF"
+  },
+  {
+    "day": 9,
+    "title": "A Psalm for the Wild-Built",
+    "author": "Becky Chambers",
+    "genre": "Cozy science fiction",
+    "mood": [
+      "hopeful",
+      "restful"
+    ],
+    "length": "3 hours",
+    "note": "You do not need to earn your rest. This book agrees.",
+    "cover": "#4f6545",
+    "accent": "#e6c66e",
+    "file": "/books/day09-A Psalm for the Wild-Built.pdf",
+    "format": "PDF"
+  },
+  {
+    "day": 10,
+    "title": "The Ocean at the End of the Lane",
+    "author": "Neil Gaiman",
+    "genre": "Modern fantasy",
+    "mood": [
+      "mythic",
+      "nostalgic"
+    ],
+    "length": "4 hours",
+    "note": "A doorway back into the wild, shadowy logic of childhood.",
+    "cover": "#253f57",
+    "accent": "#d9c58b",
+    "file": "/books/day10-The Ocean at the End of the Lane.pdf",
+    "format": "PDF"
+  },
+  {
+    "day": 11,
+    "title": "Days at the Morisaki Bookshop",
+    "author": "Satoshi Yagisawa",
+    "genre": "Cozy fiction",
+    "mood": [
+      "bookish",
+      "restorative"
+    ],
+    "length": "3 hours",
+    "note": "A bookshop can be a shelter. I think this one might be yours.",
+    "cover": "#80603d",
+    "accent": "#efe0ae",
+    "file": "/books/day11-Days at the Morisaki Bookshop.pdf",
+    "format": "PDF"
+  },
+  {
+    "day": 12,
+    "title": "Sweet Bean Paste",
+    "author": "Durian Sukegawa",
+    "genre": "Literary fiction",
+    "mood": [
+      "kind",
+      "melancholy"
+    ],
+    "length": "4 hours",
+    "note": "A sweet little reminder to listen closely to the world.",
+    "cover": "#96595b",
+    "accent": "#f0d2ba",
+    "file": "/books/day12-Sweet Bean Paste.pdf",
+    "format": "PDF"
+  },
+  {
+    "day": 13,
+    "title": "The Housekeeper and the Professor",
+    "author": "Yoko Ogawa",
+    "genre": "Literary fiction",
+    "mood": [
+      "tender",
+      "clever"
+    ],
+    "length": "3 hours",
+    "note": "For the quiet beauty of numbers, memories, and care.",
+    "cover": "#415b6e",
+    "accent": "#e7d7a5",
+    "file": "/books/day13-The Housekeeper and the Professor.pdf",
+    "format": "PDF"
+  }
 ]
