@@ -6,6 +6,7 @@ import booksData from './data/books.json'
 
 type Book = typeof booksData[number]
 type View = 'room' | 'calendar' | 'journal'
+type Composition = 'window' | 'fireplace' | 'path'
 
 const storageKey = 'midnight-nook-progress'
 const totalDays = booksData.length
@@ -32,13 +33,33 @@ function availableDayFor(date = new Date()) {
   return Math.min(date.getDate(), totalDays)
 }
 
-function Room({ opened, onSelect, onFinal, stage }: { opened: number[]; onSelect: (book: Book) => void; onFinal: () => void; stage: number }) {
-  const spots = [
-    [17, 56], [12, 31], [31, 72], [78, 65], [67, 48], [87, 37], [6, 69], [45, 79], [91, 72], [23, 43], [57, 28], [73, 78],
-    [9, 46], [39, 37], [84, 54], [50, 61], [94, 47], [26, 83], [63, 73], [14, 78], [36, 56], [81, 81], [54, 84], [70, 59]
-  ]
+const compositions: Record<Composition, { label: string; hint: string; spots: [number, number][] }> = {
+  window: {
+    label: 'Window focus',
+    hint: 'A quiet window-seat cluster keeps the books close to the main scene.',
+    spots: [[34, 18], [43, 18], [52, 18], [61, 18], [31, 39], [41, 39], [51, 39], [61, 39], [69, 39], [37, 57], [46, 57], [55, 57], [64, 57]]
+  },
+  fireplace: {
+    label: 'Hearth focus',
+    hint: 'Markers gather along the mantle and hearth so the final reveal feels important.',
+    spots: [[48, 55], [54, 55], [60, 55], [66, 55], [72, 55], [47, 68], [53, 68], [59, 68], [65, 68], [71, 68], [52, 80], [60, 80], [68, 80]]
+  },
+  path: {
+    label: 'Reading path',
+    hint: 'December follows a soft arc from the shelf, through the window seat, to the fire.',
+    spots: [[18, 32], [23, 42], [30, 50], [38, 56], [46, 58], [54, 57], [61, 54], [66, 49], [70, 44], [73, 51], [73, 62], [68, 72], [60, 79]]
+  }
+}
+
+function Room({ opened, onSelect, onFinal, stage, composition, onCompositionChange }: { opened: number[]; onSelect: (book: Book) => void; onFinal: () => void; stage: number; composition: Composition; onCompositionChange: (composition: Composition) => void }) {
+  const activeComposition = compositions[composition]
+  const spots = activeComposition.spots
   const availableDay = availableDayFor()
-  return <div className={`room stage-${stage}`}>
+  return <div className={`room stage-${stage} composition-${composition}`}>
+    <div className="composition-switcher" aria-label="Room composition options">
+      {(Object.keys(compositions) as Composition[]).map(option => <button key={option} className={option === composition ? 'active' : ''} onClick={() => onCompositionChange(option)} aria-pressed={option === composition}>{compositions[option].label}</button>)}
+    </div>
+    <div className="first-visit-hint">Tonight’s book glows warmest. {activeComposition.hint}</div>
     <div className="ceiling-beam" />
     <div className="window">
       <div className="window-sky"><span className="moon"/><div className="rooftops"/><Rain/></div>
@@ -57,7 +78,7 @@ function Room({ opened, onSelect, onFinal, stage }: { opened: number[]; onSelect
     {booksData.map((book, i) => {
       const unlocked = book.day <= availableDay
       const isOpened = opened.includes(book.day)
-      return <button key={book.day} className={`day-spot ${unlocked ? 'unlocked' : 'locked'} ${isOpened ? 'opened' : ''}`} style={{left:`${spots[i][0]}%`,top:`${spots[i][1]}%`}} onClick={()=>unlocked && onSelect(book)} aria-label={unlocked ? `Open day ${book.day}: ${book.title}` : `Day ${book.day}, locked`}>
+      return <button key={book.day} className={`day-spot ${unlocked ? 'unlocked' : 'locked'} ${isOpened ? 'opened' : ''} ${book.day === availableDay ? 'current' : ''}`} style={{left:`${spots[i][0]}%`,top:`${spots[i][1]}%`}} onClick={()=>unlocked && onSelect(book)} aria-label={unlocked ? `Open day ${book.day}: ${book.title}` : `Day ${book.day}, locked`}>
         <span className="spot-number">{book.day}</span>{!unlocked && <LockKeyhole size={10}/>}<span className="spot-tooltip">{unlocked ? (isOpened ? 'Opened' : "Open book") : `Opens Dec ${book.day}`}</span>
       </button>
     })}
@@ -100,6 +121,7 @@ function App() {
   const [intro,setIntro]=useState(true)
   const [sound,setSound]=useState(false)
   const [finalLetter,setFinalLetter]=useState(false)
+  const [composition,setComposition]=useState<Composition>('window')
   useEffect(()=>{const t=setTimeout(()=>setIntro(false),3600); return()=>clearTimeout(t)},[])
   useEffect(()=>localStorage.setItem(storageKey,JSON.stringify(opened)),[opened])
   const stage=useMemo(()=>opened.length>=totalDays?4:opened.length>=10?3:opened.length>=7?2:opened.length>=4?1:0,[opened])
@@ -107,7 +129,7 @@ function App() {
   return <div className="app-shell">
     <AnimatePresence>{intro&&<motion.div className="intro" initial={{opacity:1}} exit={{opacity:0}} transition={{duration:1.1}}><p>Welcome back.</p><p className="type-line">Your December books are here.</p><button onClick={()=>setIntro(false)}>Enter the nook <span>→</span></button></motion.div>}</AnimatePresence>
     <header><button className="brand" onClick={()=>setView('room')}><div><strong>The Midnight</strong><small>Reading Nook</small></div></button><nav><button className={view==='room'?'active':''} onClick={()=>setView('room')}><Flame/>The Nook</button><button className={view==='calendar'?'active':''} onClick={()=>setView('calendar')}><CalendarDays/>Calendar</button><button className={view==='journal'?'active':''} onClick={()=>setView('journal')}><NotebookPen/>Journal</button></nav><div className="header-tools"><span className="progress-pill">{opened.length} <i>/ {totalDays} stories</i></span><button className="sound" onClick={()=>setSound(!sound)} aria-label="Toggle rain sounds">{sound?<Volume2/>:<VolumeX/>}</button></div></header>
-    <AnimatePresence mode="wait">{view==='room'?<motion.main key="room" className="room-wrap" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}><Room opened={opened} onSelect={setSelected} onFinal={()=>setFinalLetter(true)} stage={stage}/><div className="room-caption"><span className="caption-line"/><div><p>December 1–13, 2026</p><strong>Select a numbered spot to open the day’s book.</strong></div><span className="room-hint">Unlocked days are marked in brass</span></div></motion.main>:view==='calendar'?<CalendarView key="calendar" opened={opened} onSelect={setSelected}/>:<Journal key="journal" opened={opened}/>}</AnimatePresence>
+    <AnimatePresence mode="wait">{view==='room'?<motion.main key="room" className="room-wrap" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}><Room opened={opened} onSelect={setSelected} onFinal={()=>setFinalLetter(true)} stage={stage} composition={composition} onCompositionChange={setComposition}/><div className="room-caption"><span className="caption-line"/><div><p>December 1–13, 2026</p><strong>Select a numbered spot to open the day’s book.</strong></div><span className="room-hint">Unlocked days are marked in brass</span></div></motion.main>:view==='calendar'?<CalendarView key="calendar" opened={opened} onSelect={setSelected}/>:<Journal key="journal" opened={opened}/>}</AnimatePresence>
     <footer><span>13 books</span><i>/</i><span>December 2026</span></footer>
     <AnimatePresence>{selected&&<Reveal book={selected} isOpened={opened.includes(selected.day)} onClose={()=>setSelected(null)} onOpened={markOpened}/>}</AnimatePresence>
     <AnimatePresence>{finalLetter&&<motion.div className="modal-backdrop" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}><motion.section className="final-letter" initial={{scale:.98,y:16,opacity:0}} animate={{scale:1,y:0,opacity:1}} transition={{duration:.22,ease:[.22,1,.36,1]}}><button className="close-button" onClick={()=>setFinalLetter(false)}><X size={18}/></button><p className="script">Final note</p><h2>Thirteen books,<br/>one shelf.</h2><p>Thank you for reading through December with me.</p><div>There is always room for one more book.</div><small>With love</small></motion.section></motion.div>}</AnimatePresence>
